@@ -5,6 +5,8 @@ import 'package:language_app/language_translation_tutorial/hero_card.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:language_app/language_translation_tutorial/language_provider/language_switcher.dart';
 
+import 'language_provider/locale_provider.dart';
+
 class HeroList extends  ConsumerStatefulWidget {
   final String title;
 

@@ -5,9 +5,11 @@ import 'package:language_app/delivery_progress.dart';
 import 'package:language_app/l10n/l10n.dart';
 import 'package:language_app/language_translation_tutorial/hero_list.dart';
 import 'package:language_app/language_translation_tutorial/language_provider/language_switcher.dart';
+import 'package:language_app/language_translation_tutorial/language_provider/locale_provider.dart';
 import 'package:language_app/riverpod_tutorial/2_state_provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 ///Creating a Provider
@@ -15,8 +17,14 @@ final nameProvider = Provider<String>((ref) {
   return "Hello Vic";
 });
 
-void main() {
-  runApp(const ProviderScope(child: MyApp()));
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await LocaleProvider().loadLocaleFromPreferences();
+  final preferences = await SharedPreferences.getInstance();
+
+  runApp(const ProviderScope(
+      overrides: [],
+      child: MyApp()));
 }
 
 class MyApp extends ConsumerWidget {
@@ -25,6 +33,7 @@ class MyApp extends ConsumerWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final locale = ref.watch(localeProvider);
     return MaterialApp(
       title: 'Flutter Demo',
       locale: ref.watch(localeProvider),
